@@ -1008,26 +1008,74 @@ class SpatialLibrispeechDataModule(LightningDataModule):
 
 
 # ----------------------------------------------------------
-# Example usage
+# Example usage : preparation, loading and visualization
 # ----------------------------------------------------------
 
 
 if __name__ == "__main__":
+    # Parse args to get how many datapoints to prepare
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Prepare the Spatial Librispeech dataset."
+    )
+    parser.add_argument(
+        "--download_lite_sls",
+        action="store_true",
+        help="Whether to download the entire lite version of the Spatial Librispeech dataset.",
+    )
+    parser.add_argument(
+        "--train_head",
+        type=int,
+        default=100,
+        help="Number of training samples to prepare. Use None to prepare the entire dataset.",
+    )
+    parser.add_argument(
+        "--test_head",
+        type=int,
+        default=100,
+        help="Number of test samples to prepare. Use None to prepare the entire dataset.",
+    )
+    parser.add_argument(
+        "--reset_local_sls_metadata",
+        action="store_true",
+        help="Whether to reset the local SLS metadata."
+        "This will re-generate the metadata files."
+        "Use this if you've downloaded extra samples.",
+    )
+    args = parser.parse_args()
+
+    # -----------------------------------------------------
+    # Preparing the dataset
+    # -----------------------------------------------------
+
     # Please make sure to set the paths to your own directories.
     datamodule = SpatialLibrispeechDataModule(batch_size=2)
 
-    # ---- Preparing the dataset ----
-
     print("\nPrepare the dataset\n")
 
-    # Use None to load the entire lite dataset
-    datamodule.prepare_data(
-        train_head=100, test_head=100, reset_local_sls_metadata=True
-    )
+    if args.download_lite_sls:
+        print(
+            "Downloading the lite version of the Spatial Librispeech dataset."
+            "This may take a while..."
+        )
+        datamodule.prepare_data(
+            train_head=None,
+            test_head=None,
+            reset_local_sls_metadata=args.reset_local_sls_metadata,
+        )
+    else:
+        datamodule.prepare_data(
+            train_head=args.train_head,
+            test_head=args.test_head,
+            reset_local_sls_metadata=args.reset_local_sls_metadata,
+        )
 
-    # ---- Load the dataset and test it ----
+    # -----------------------------------------------------
+    # Test the dataset
+    # -----------------------------------------------------
 
-    print("\nDesting the dataset\n")
+    print("\nTesting the dataset\n")
 
     dataloader = datamodule.train_dataloader()
 
