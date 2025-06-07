@@ -76,3 +76,5 @@ choco install ffmpeg -y
 ```
 
 If you stop the installation, re-running the script will just pick up from where it left off.
+
+Don't forget to update your personal .gitignore with "datasets/*".
