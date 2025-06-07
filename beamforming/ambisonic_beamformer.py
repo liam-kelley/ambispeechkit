@@ -5,14 +5,16 @@ from ambisonic foa input and directions / covariance matrices using different be
 Throughout this whole script, "channels" will be of (sh_order+1)**2 dimension.
 """
 
+import numpy as np
+from scipy import linalg as la
 import torch
 import torch.nn as nn
 import torchaudio.functional as F
 
-from spherical_harmonics.get_max_re_weights import get_max_re_weights_scalor
-from spherical_harmonics.get_sph_harm_coeffs import get_sph_harm_coeffs
-import numpy as np
-from scipy import linalg as la
+from ambispeechkit.spherical_harmonics.get_max_re_weights import (
+    get_max_re_weights_scalor,
+)
+from ambispeechkit.spherical_harmonics.get_sph_harm_coeffs import get_sph_harm_coeffs
 
 
 class Ambisonic_Beamformer(nn.Module):

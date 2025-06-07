@@ -7,8 +7,8 @@ by A. Bosca, A. Guérin, L. Perotin and S. Kitić. https://ieeexplore.ieee.org/d
 import torch
 import torch.nn as nn
 
-from tools.stft_utils import compute_magnitude, band_level_normalize
-from beamforming.ambisonic_beamformer import Ambisonic_Beamformer
+from ambispeechkit.tools.stft_utils import compute_magnitude, band_level_normalize
+from ambispeechkit.beamforming.ambisonic_beamformer import Ambisonic_Beamformer
 
 
 class Dilated_Unet(nn.Module):

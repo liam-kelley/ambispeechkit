@@ -1,6 +1,8 @@
 import torch
 
-from spherical_harmonics.get_sph_harm_coeffs import batch_get_sph_harm_coeffs
+from ambispeechkit.spherical_harmonics.get_sph_harm_coeffs import (
+    get_sph_harm_coeffs,
+)
 
 
 def upsample_mono_signal(
@@ -22,7 +24,7 @@ def upsample_mono_signal(
     signal_spec_temp = signal_spec.unsqueeze(1)  # (batch_size, 1, f_bins, t_bins)
 
     sph_harm_coeffs = (
-        batch_get_sph_harm_coeffs(
+        get_sph_harm_coeffs(
             azimuth=signal_azimuth,
             elevation=signal_elevation,
             sh_order=sh_order,

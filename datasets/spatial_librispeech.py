@@ -20,8 +20,8 @@ from torch.utils.data import DataLoader, Dataset
 from torchaudio.datasets import LIBRISPEECH
 from tqdm import tqdm
 
-from tools.gcc_phat import gcc_phat
-from tools.stft_utils import stft
+from ambispeechkit.tools.gcc_phat import gcc_phat
+from ambispeechkit.tools.stft_utils import stft
 
 # ----------------------------------------------------------
 # Download Spatial Librispeech dataset + Librispeech
@@ -417,8 +417,8 @@ def add_gcc_phat_to_merged_metadata(
 class SpatialLibrispeechDataset(Dataset):
     def __init__(
         self,
-        sls_data_dir: str = "./datasets/SpatialLibrispeech/",
-        ls_data_dir: str = "./datasets/LibriSpeech/",
+        sls_data_dir: str = "./ambispeechkit/datasets/SpatialLibrispeech/",
+        ls_data_dir: str = "./ambispeechkit/datasets/LibriSpeech/",
         stage: Literal["train", "test"] | None = "train",
         random_audio_offset: bool = True,
         tiny: bool = False,
@@ -427,9 +427,9 @@ class SpatialLibrispeechDataset(Dataset):
         Spatial Librispeech Dataset.
         Args:
             sls_data_dir (str, optional): Path to the Spatial Librispeech dataset directory.
-                Defaults to "./datasets/SpatialLibrispeech/".
+                Defaults to "./ambispeechkit/datasets/SpatialLibrispeech/".
             ls_data_dir (str, optional): Path to the LibriSpeech dataset directory.
-                Defaults to "./datasets/LibriSpeech/".
+                Defaults to "./ambispeechkit/datasets/LibriSpeech/".
             stage (Literal["train", "test"] | None, optional): The stage of the dataset to load
                 (train or test). Defaults to "train". If None, all data is loaded.
             random_audio_offset (bool, optional): Whether to randomly offset audio samples.
@@ -771,8 +771,8 @@ class SpatialLibrispeechDataset(Dataset):
         uid: int,
         clean_audio_path: str,
         sample_rate: int = 16000,
-        sls_data_dir: str = "./datasets/SpatialLibrispeech/",
-        ls_data_dir: str = "./datasets/LibriSpeech/",
+        sls_data_dir: str = "./ambispeechkit/datasets/SpatialLibrispeech/",
+        ls_data_dir: str = "./ambispeechkit/datasets/LibriSpeech/",
         duration: float = 1.25,  # seconds
     ):
         """
@@ -909,8 +909,8 @@ class SpatialLibrispeechDataset(Dataset):
 class SpatialLibrispeechDataModule(LightningDataModule):
     def __init__(
         self,
-        sls_data_dir: str = "./datasets/SpatialLibrispeech/",
-        ls_data_dir: str = "./datasets/LibriSpeech/",
+        sls_data_dir: str = "./ambispeechkit/datasets/SpatialLibrispeech/",
+        ls_data_dir: str = "./ambispeechkit/datasets/LibriSpeech/",
         batch_size=1,
         num_workers=0,
         shuffle=True,

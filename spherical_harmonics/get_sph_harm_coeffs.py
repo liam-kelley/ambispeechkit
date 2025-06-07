@@ -3,9 +3,11 @@ This script interfaces with spherical harmonics implementations to compute
 spherical harmonic coefficients based on azimuth and elevation angles.
 """
 
-import spherical_harmonics.real_sph_harm_coeffs_by_cheind as cheind
-from spherical_harmonics.sph_harm_coeffs_by_marc1701 import sph_harm_coefficients
-from spherical_harmonics.sph_utils import azimuth_elevation_to_cartesian
+import ambispeechkit.spherical_harmonics.real_sph_harm_coeffs_by_cheind as cheind
+from ambispeechkit.spherical_harmonics.sph_harm_coeffs_by_marc1701 import (
+    sph_harm_coefficients,
+)
+from ambispeechkit.spherical_harmonics.sph_utils import azimuth_elevation_to_cartesian
 
 import torch
 
