@@ -21,7 +21,7 @@ python -m pip install lightning pandas pyarrow fastparquet librosa matplotlib
 
 ## Installation as a subtree
 
-1. Copy the Makefile found at the root of this repo into the root of your repo. This makefile has 3 useful commands to manage the subtree.
+1. Copy the Makefile found in the subtree folder of this repo into the root of your repo. This makefile has 3 useful commands to manage the subtree.
 2. Run this to add the repository as a subtree.
 
 ```bash
@@ -50,6 +50,7 @@ But you can also interface with the original public repository using these comma
 make pull-shared
 
 # push your latest commits to the public ambispeechkit repo
+# Make sure to pull, push, and PULL AGAIN. This synchronizes things correctly.
 make push-shared
 ```
 
