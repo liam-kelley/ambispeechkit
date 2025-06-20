@@ -25,7 +25,7 @@ class Ambisonic_Beamformer(nn.Module):
     0. omni: Uses the omnidirectional component of the FOA input.
     1. max_di: Uses the maximum directivity index (DI) beamforming weights.
     2. max_re: Uses the maximum response error (RE) beamforming weights.
-    3. lc: Uses the beamforming weights from the "Dilated U-Net [...]" paper, which look like LCMV without MV.
+    3. pwd: Uses the beamforming weights from the "Dilated U-Net [...]" paper, which look like Plane Wave decomposition beamforming.
     4. mvdr: Uses the minimum variance distortionless response (MVDR) beamforming weights.
     5. souden_mvdr: Uses the Souden MVDR beamforming weights.
     6. lcmv: Uses the linear constrained minimum variance (LCMV) beamforming weights.
@@ -51,7 +51,7 @@ class Ambisonic_Beamformer(nn.Module):
 
     def __init__(
         self,
-        bf_style: str = "max_di",  # Options : omni, max_di, max_re, lc, mvdr, souden_mvdr, lcmv, max_sisnr, gevd_mwf
+        bf_style: str = "max_di",  # Options : omni, max_di, max_re, pwd, mvdr, souden_mvdr, lcmv, max_sisnr, gevd_mwf
         sph_order: int = 1,  # Spherical harmonics order
         sph_implementation: str = "cheind",  # Options : cheind, marc1701
     ):
@@ -166,12 +166,12 @@ class Ambisonic_Beamformer(nn.Module):
                 assert azimuth is not None
                 assert elevation is not None
                 weights = self.get_max_re_weights(azimuth, elevation)
-            case "lc":
+            case "pwd":
                 assert azimuth is not None
                 assert elevation is not None
                 assert interference_azimuth is not None
                 assert interference_elevation is not None
-                weights = self.get_lc_weights(
+                weights = self.get_pwd_weights(
                     azimuth, elevation, interference_azimuth, interference_elevation
                 )
             case "mvdr":
@@ -269,11 +269,11 @@ class Ambisonic_Beamformer(nn.Module):
         weights = weights * self.max_re_weights_scalor
         return weights
 
-    def get_lc_weights(
+    def get_pwd_weights(
         self, speech_azimuth, speech_elevation, noise_azimuths, noise_elevations
     ):
         """
-        Calculates the lc beamformer weights using the pseudo-inverse of the concatenated steering vectors.
+        Calculates the pwd beamformer weights using the pseudo-inverse of the concatenated steering vectors.
         This implementation is from the "Dilated U-net [...]" paper.
         TODO Check this implementation.
 
@@ -284,7 +284,7 @@ class Ambisonic_Beamformer(nn.Module):
             noise_elevations: Elevations of the noise sources. (batch_size, num_noises)
 
         Returns:
-            lc beamformer weights. (batch_size, f_bins, channels)
+            pwd beamformer weights. (batch_size, f_bins, channels)
         """
         # Ensure noise azimuths and elevations have a num_noises dimension
         if noise_azimuths.dim() == 1:
@@ -571,7 +571,7 @@ class Ambisonic_Beamformer(nn.Module):
             "omni",
             "max_di",
             "max_re",
-            "lc",
+            "pwd",
             "mvdr",
             "souden_mvdr",
             "lcmv",

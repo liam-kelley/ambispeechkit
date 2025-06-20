@@ -204,6 +204,7 @@ class Dilated_Unet_Full_Pipeline(nn.Module):
         train_on_masked_speech: bool = False,
         no_band_level_normalization: bool = True,
         compress_mag: bool = True,
+        **kwargs,
     ):
         super().__init__()
 
